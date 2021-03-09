@@ -1,0 +1,27 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="5" author="dev">
+        <createTable tableName="task_lists">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"
+                             nullable="false"/>
+            </column>
+            
+            <column name="title" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="board_id" type="bigint">
+                <constraints nullable="false"
+                             referencedColumnNames="id"
+                             referencedTableName="boards"
+                             foreignKeyName="FK_board_id_task_lists"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

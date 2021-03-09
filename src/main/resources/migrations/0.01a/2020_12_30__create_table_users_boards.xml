@@ -1,0 +1,30 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="8" author="lev">
+        <createTable tableName="users_boards">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false"
+                             primaryKey="true"/>
+            </column>
+
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"
+                             referencedColumnNames="id"
+                             referencedTableName="users"
+                             foreignKeyName="FK_user_id_users_boards"/>
+            </column>
+
+            <column name="board_id" type="bigint">
+                <constraints nullable="false"
+                             referencedColumnNames="id"
+                             referencedTableName="boards"
+                             foreignKeyName="FK_board_id_users_boards"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
