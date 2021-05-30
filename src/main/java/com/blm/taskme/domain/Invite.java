@@ -20,15 +20,27 @@ public class Invite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
+    @JoinColumn(name = "from_user_id")
     private User fromUser;
     @ManyToOne
+    @JoinColumn(name = "to_user_id")
     private User toUser;
     @ManyToOne
     private Board board;
     @Enumerated(value = EnumType.STRING)
     private InviteStatus status;
-    @Column(name = "created_at")
     private LocalDate createdAt;
-    @Column(name = "updated_at")
     private LocalDate updatedAt;
+
+    @PrePersist
+    private void prePersist() {
+        createdAt = LocalDate.now();
+        updatedAt = createdAt;
+    }
+
+    @PreUpdate
+    private void preUpdate() {
+        updatedAt = LocalDate.now();
+    }
+
 }
