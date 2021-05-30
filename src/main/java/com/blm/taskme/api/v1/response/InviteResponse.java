@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Data
 public class InviteResponse {
+    private Long id;
     @JsonAlias(value = "email_from")
     private String emailFrom;
     @JsonAlias(value = "email_to")
