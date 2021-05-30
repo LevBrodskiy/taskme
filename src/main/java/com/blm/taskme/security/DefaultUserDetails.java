@@ -23,9 +23,9 @@ public class DefaultUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return user.getRoles()
-                .stream()
+                /*.stream()
                 .flatMap(role -> role.getPermissions().stream())
-                .distinct().collect(Collectors.toList());
+                .distinct().collect(Collectors.toList())*/;
     }
 
     @Override
