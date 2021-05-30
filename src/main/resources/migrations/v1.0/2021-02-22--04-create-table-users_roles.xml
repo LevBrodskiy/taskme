@@ -7,11 +7,6 @@
 
     <changeSet id="8" author="dev">
         <createTable tableName="users_roles">
-            <column name="id" type="bigint">
-                <constraints primaryKey="true"
-                             nullable="false"/>
-            </column>
-
             <column name="user_id" type="bigint">
                 <constraints nullable="false"
                              referencedColumnNames="id"
