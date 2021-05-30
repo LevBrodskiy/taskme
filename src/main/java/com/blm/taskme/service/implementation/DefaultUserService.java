@@ -18,6 +18,7 @@ import com.blm.taskme.util.ValidationUtil;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,18 +32,21 @@ public class DefaultUserService implements UserService {
     private final UserMapper userMapper;
     private final Validator validator;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public DefaultUserService(UserRepository userRepository, UserMapper userMapper, Validator validator, RoleRepository roleRepository) {
+    public DefaultUserService(UserRepository userRepository, UserMapper userMapper, Validator validator, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.validator = validator;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
     @Override
     public void register(RegistrationRequest request) throws RegistrationException, ValidationException {
+        System.out.println(validator);
         ValidationUtil.validate(validator, request);
 
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -55,7 +59,7 @@ public class DefaultUserService implements UserService {
 
         user.setId(null);
         user.setStatus(UserStatus.ACTIVE);
-
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         Role role = roleRepository.findByName(RoleName.DEFAULT_USER)
                 .orElseThrow(() -> new RuntimeException("Role DEFAULT_USER not found"));
 
@@ -83,11 +87,11 @@ public class DefaultUserService implements UserService {
 
         Authentication authentication = (Authentication)principal;
 
-        if ( !(authentication.getPrincipal() instanceof DefaultUserDetails) ) {
+        if ( !(authentication.getDetails() instanceof DefaultUserDetails) ) {
             return Optional.empty();
         }
 
-        DefaultUserDetails userDetails = (DefaultUserDetails) authentication.getPrincipal();
+        DefaultUserDetails userDetails = (DefaultUserDetails) authentication.getDetails();
 
         return Optional.ofNullable(userDetails.getUser());
     }

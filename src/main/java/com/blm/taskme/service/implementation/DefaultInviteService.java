@@ -51,6 +51,8 @@ public class DefaultInviteService {
                 .board(board)
                 .build();
 
+        System.out.println(invite);
+
         invite = inviteRepository.save(invite);
     }
 
@@ -132,6 +134,7 @@ public class DefaultInviteService {
     private InviteResponse toResponse(Invite invite) {
         InviteResponse response = InviteResponse
                 .builder()
+                .id(invite.getId())
                 .emailFrom(invite.getFromUser().getEmail())
                 .emailTo(invite.getToUser().getEmail())
                 .boardId(invite.getBoard().getId())

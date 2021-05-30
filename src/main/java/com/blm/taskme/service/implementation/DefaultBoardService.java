@@ -44,7 +44,7 @@ public class DefaultBoardService implements BoardService {
 
         board.setId(null);
         board.setOwner(user);
-
+        board.setIsFavorite(false);
         Board savedBoard = boardRepository.save(board);
 
         return boardMapper.toResponse(savedBoard);
@@ -72,7 +72,7 @@ public class DefaultBoardService implements BoardService {
 
         Pageable pageable = PageRequest.of(page, perPage);
 
-        List<Board> boards = boardRepository.findByOwner(user, pageable);
+        List<Board> boards = boardRepository.findByOwner_Id(user.getId(), pageable).toList();
 
         List<BoardResponse> responseList = boards
                 .stream()
@@ -88,9 +88,9 @@ public class DefaultBoardService implements BoardService {
         User user = userService.getUser(principal)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        boolean deleted = boardRepository.deleteByIdAndOwner(boardId, user);
+        Integer deleted = boardRepository.deleteByIdAndOwner(boardId, user);
 
-        if (!deleted) {
+        if (deleted == 0) {
             throw new EntityNotFoundException("Board not found");
         }
     }

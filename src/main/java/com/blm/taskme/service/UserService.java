@@ -6,6 +6,8 @@ import com.blm.taskme.domain.User;
 import com.blm.taskme.service.exception.RegistrationException;
 import com.blm.taskme.service.exception.UserNotFoundException;
 import com.blm.taskme.service.exception.ValidationException;
+import lombok.NonNull;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -17,7 +19,8 @@ public interface UserService {
      UserProfileResponse getProfile(String username)
             throws UserNotFoundException;
 
-    Optional<User> getUser(Principal principal);
+    @Transactional
+    abstract Optional<User> getUser(@NonNull Principal principal);
 
     Optional<User> getUserByEmail(String email);
 }

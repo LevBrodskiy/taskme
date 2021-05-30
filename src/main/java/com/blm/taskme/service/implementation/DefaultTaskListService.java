@@ -7,10 +7,7 @@ import com.blm.taskme.domain.TaskList;
 import com.blm.taskme.domain.User;
 import com.blm.taskme.repository.TaskListRepository;
 import com.blm.taskme.service.TaskListService;
-import com.blm.taskme.service.annotation.FrontRequest;
 import com.blm.taskme.service.exception.EntityNotFoundException;
-import com.blm.taskme.service.implementation.DefaultBoardService;
-import com.blm.taskme.service.implementation.DefaultUserService;
 import com.blm.taskme.service.mapper.TaskListMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,9 +77,9 @@ public class DefaultTaskListService implements TaskListService {
         Board board = boardService.getBoardByIdAndOwner(boardId, user)
                 .orElseThrow(() -> new EntityNotFoundException(""));
 
-        boolean deleted = taskListRepository.deleteByIdAndBoard(taskListId, board);
+        Integer deleted = taskListRepository.deleteByIdAndBoard(taskListId, board);
 
-        if (!deleted) {
+        if (deleted == 0) {
             throw new EntityNotFoundException("");
         }
     }

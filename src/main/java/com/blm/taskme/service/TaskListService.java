@@ -4,7 +4,6 @@ import com.blm.taskme.api.v1.request.TaskListRequest;
 import com.blm.taskme.api.v1.response.TaskListResponse;
 import com.blm.taskme.domain.Board;
 import com.blm.taskme.domain.TaskList;
-import com.blm.taskme.service.annotation.FrontRequest;
 import com.blm.taskme.service.exception.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TaskListService {
-    @FrontRequest
     @Transactional
     TaskListResponse addTaskList(Principal principal, Long boardId, TaskListRequest request) throws EntityNotFoundException;
 
