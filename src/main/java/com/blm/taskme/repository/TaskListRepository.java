@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface TaskListRepository extends JpaRepository<TaskList, Long> {
     Optional<TaskList> findByIdAndBoard(Long id, Board board);
     boolean existsByIdAndBoard_Id(Long id, Long boardId);
-    boolean deleteByIdAndBoard(Long id, Board board);
+    Integer deleteByIdAndBoard(Long id, Board board);
     List<TaskList> findAllByBoard(Board board);
     boolean existsByIdAndBoard(Long id, Board board);
 }
