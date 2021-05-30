@@ -56,7 +56,7 @@ public class TaskController {
     ) throws EntityNotFoundException {
         TaskResponse response = taskService
                 .addTask(principal, boardId, listId, request);
-        return new ResponseEntity<>(request, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

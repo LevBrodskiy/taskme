@@ -31,7 +31,7 @@ public class BoardController {
     @GetMapping
     public ResponseEntity<?> getBoards(
             @AuthenticationPrincipal Principal principal,
-            @RequestParam(name = "page", defaultValue = "1", required = false) Integer page,
+            @RequestParam(name = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(name = "per_page", defaultValue = "50", required = false) Integer perPage
     ) throws EntityNotFoundException {
         logger.debug("Get boards request: page={} per_page={}", page, perPage);

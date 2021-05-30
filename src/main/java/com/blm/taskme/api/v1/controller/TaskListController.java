@@ -55,7 +55,7 @@ public class TaskListController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateTaskList(
             @AuthenticationPrincipal Principal principal,
             @PathVariable(name = "board_id") Long boardId,
