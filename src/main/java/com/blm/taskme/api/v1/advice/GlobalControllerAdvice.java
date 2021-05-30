@@ -20,7 +20,7 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(value = RegistrationException.class)
     public ResponseEntity<?> registrationExceptionHandle(RegistrationException e) {
-        logger.info("Exception={}\nMessage={}", e, e.getMessage());
+        logger.info("Exception={}", e.toString());
         ErrorResponse response = new ErrorResponse();
         response.addMessage(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
@@ -28,8 +28,8 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(value = ConstraintViolationException.class)
     public ResponseEntity<?> constraintViolationExceptionHandle(ConstraintViolationException e) {
-        logger.info("Exception={}\nMessage={}\nViolations={}",
-                e, e.getMessage(), e.getConstraintViolations());
+        logger.info("Exception={}\nViolations={}",
+                e, e.getConstraintViolations());
         ErrorResponse response = new ErrorResponse();
 
         List<String> messages = e.getConstraintViolations()
@@ -40,5 +40,14 @@ public class GlobalControllerAdvice {
         response.setMessages(messages);
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = Exception.class)
+    public ResponseEntity<?> exceptionHandle(Exception e) {
+        e.printStackTrace();
+        logger.info("Exception={}\nMessage={}", e, e.getMessage());
+        ErrorResponse response = new ErrorResponse();
+        response.addMessage(e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
